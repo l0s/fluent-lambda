@@ -14,14 +14,24 @@
  * limitations under the License.
  ******************************************************************************/
 
-project.group = 'com.macasaet.lambda'
-project.version = '0.0.2'
+group = 'com.macasaet.lambda'
+version = '0.0.2'
+project.ext.sourceCompatibility = 1.5
 
 apply plugin: 'java'
 apply plugin: 'maven'
 
 repositories {
   mavenCentral()
+}
+
+jar {
+  manifest {
+    attributes 'Specification-Title': 'Fluent Lambda',
+      'Specification-Version': '0.0',
+      'Implementation-Title': group,
+      'Implementation-Version': version
+  }
 }
 
 task writeNewPom << {
