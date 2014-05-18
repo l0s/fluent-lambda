@@ -15,6 +15,7 @@
  ******************************************************************************/
 
 group = 'com.macasaet.lambda'
+ext.archivesBaseName = 'fluent-lambda'
 version = '0.0.3-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
@@ -70,6 +71,52 @@ artifacts {
 signing {
   required { isReleaseVersion && gradle.taskGraph.hasTask( 'uploadArchives' ) }
   sign configurations.archives
+}
+
+uploadArchives {
+  // required { isReleaseVersion }
+  onlyIf { isReleaseVersion }
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom( deployment ) }
+
+      repository( url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/" ) {
+        authentication( userName: ossrhUsername )
+      }
+
+      snapshotRepository( url: "https://oss.sonatype.org/content/repositories/snapshots/" ) {
+        authentication( userName: ossrhUsername )
+      }
+
+      pom.project {
+        name 'Fluent Lambda'
+        packaging 'jar'
+        artifactId archivesBaseName
+        description ''
+        url 'https://github.com/l0s/fluent-lambda'
+
+        scm {
+          connection 'scm:git@github.com:l0s/fluent-lambda.git'
+          developerConnection 'scm:git@github.com:l0s/fluent-lambda.git'
+          url 'https://github.com/l0s/fluent-lambda'
+        }
+
+        licenses {
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+
+        developers {
+          developer {
+            id 'carlos'
+            name 'Carlos Macasaet'
+          }
+        }
+      }
+    }
+  }
 }
 
 dependencies {
