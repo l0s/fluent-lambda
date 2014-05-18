@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
 
 import org.apache.commons.math.linear.AnyMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.linear.RealVector;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -117,4 +119,18 @@ public class FluentFunctionsTest {
         // then
         assertFalse(predicate.apply(nonSquareMatrix));
     }
+
+    @Test
+    public final void testFunction() {
+        // given
+        final RealVector instance = new ArrayRealVector(new double[] {3, 4});
+
+        // when
+        final Function<? super RealVector, ? extends Double> function = forMethod(ofClass(RealVector.class).getNorm());
+
+        // then
+        final double result = function.apply(instance);
+        assertEquals(5.0d, result, 0);
+    }
+
 }
