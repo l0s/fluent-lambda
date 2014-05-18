@@ -67,10 +67,10 @@ public class FluentFunctionsTest {
     public final void verifyMultipleCapturesThrowsException() {
         // given
         final Logger stub = ofClass(Logger.class);
+        stub.getName();
 
         // when
         try {
-            stub.getName();
             stub.getName();
 
             // then
@@ -106,7 +106,7 @@ public class FluentFunctionsTest {
         assertTrue(predicate.apply(squareMatrix));
     }
 
-//    @Test // FIXME
+    @Test
     public final void verifyPredicateEvaluatesFalse() {
         // given
         final Array2DRowRealMatrix nonSquareMatrix = new Array2DRowRealMatrix(new double[][] { {0, 1, 3}, {4, 5, 6}});

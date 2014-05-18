@@ -1,1 +1,9 @@
 target/
+/build
+/bin
+gradle.properties
+/test-output/
+/.settings/
+/.gradle/
+.classpath
+.project

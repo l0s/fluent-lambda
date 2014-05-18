@@ -16,7 +16,6 @@
 package com.macasaet.lambda.fluent;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+//import static com.google.common.base.Preconditions.checkState;
 
 /**
  * 
@@ -113,6 +113,13 @@ public class FluentFunctions {
                 }
             }
         };
+    }
+
+    protected static void checkState(final boolean state, final String message) {
+        if (!state) {
+            methodHolder.remove();
+            throw new IllegalArgumentException(message);
+        }
     }
 
 }

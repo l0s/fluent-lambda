@@ -15,11 +15,13 @@
  ******************************************************************************/
 
 group = 'com.macasaet.lambda'
-version = '0.0.2'
+version = '0.0.3-SNAPSHOT'
+ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
   mavenCentral()
@@ -47,6 +49,27 @@ task writeNewPom << {
       }
     }
   }.writeTo( "${buildDir/newpom.xml}" )
+}
+
+task javadocJar( type: Jar, dependsOn: javadoc ) {
+  classifier = 'javadoc'
+  from 'build/docs/javadoc'
+}
+
+task sourcesJar( type: Jar ) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+
+artifacts {
+  archives jar
+  archives javadocJar
+  archives sourcesJar
+}
+
+signing {
+  required { isReleaseVersion && gradle.taskGraph.hasTask( 'uploadArchives' ) }
+  sign configurations.archives
 }
 
 dependencies {
