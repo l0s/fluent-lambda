@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-//import static com.google.common.base.Preconditions.checkState;
 
 /**
  * 
