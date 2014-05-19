@@ -14,11 +14,38 @@
  * limitations under the License.
  ******************************************************************************/
 
+import org.gradle.plugins.signing.Sign
+
 group = 'com.macasaet.lambda'
 ext.archivesBaseName = 'fluent-lambda'
 version = '0.0.3-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
+
+gradle.taskGraph.whenReady {
+  taskGraph ->
+    if( isReleaseVersion )
+    {
+      println "Release version, prompting for passwords."
+      Console console = System.console()
+      if( taskGraph.allTasks.any { it instanceof Sign } )
+      {
+        println "Prompting for PGP password"
+        def password =
+          console.readPassword( "\n\nPGP Password for Private Key " + ext."signing.keyId" + ": " )
+        allprojects { ext."signing.password" = password }
+      }
+      /*
+      if( taskGraph.hasTask( uploadArchives ) )
+      {
+        println "Prompting for Repo password"
+        def password =
+          console.readPassword( "Repository password for " + ext."ossrhUsername" + ": " )
+        allprojects { ext."ossrhPassword" = password }
+      }
+      */
+    }
+}
 
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -73,20 +100,22 @@ signing {
   sign configurations.archives
 }
 
+uploadArchives.doFirst {
+  def ossrhPassword =
+    System.console().readPassword( "\n\nRepository password for " + ossrhUsername + ": " )
+  repositories.mavenDeployer.repository( url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/" ) {
+    authentication( userName: ossrhUsername, password: ossrhPassword )
+  }
+  repositories.mavenDeployer.snapshotRepository( url: "https://oss.sonatype.org/content/repositories/snapshots/" ) {
+    authentication( userName: ossrhUsername, password: ossrhPassword )
+  }
+}
 uploadArchives {
-  // required { isReleaseVersion }
   onlyIf { isReleaseVersion }
   repositories {
     mavenDeployer {
+      
       beforeDeployment { MavenDeployment deployment -> signing.signPom( deployment ) }
-
-      repository( url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/" ) {
-        authentication( userName: ossrhUsername )
-      }
-
-      snapshotRepository( url: "https://oss.sonatype.org/content/repositories/snapshots/" ) {
-        authentication( userName: ossrhUsername )
-      }
 
       pom.project {
         name 'Fluent Lambda'
