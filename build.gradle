@@ -18,38 +18,38 @@ import org.gradle.plugins.signing.Sign
 
 group = 'com.macasaet.lambda'
 ext.archivesBaseName = 'fluent-lambda'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.3'
 ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7'
+  }
+}
 
 gradle.taskGraph.whenReady {
   taskGraph ->
     if( isReleaseVersion )
     {
-      println "Release version, prompting for passwords."
       Console console = System.console()
       if( taskGraph.allTasks.any { it instanceof Sign } )
       {
-        println "Prompting for PGP password"
         def password =
           console.readPassword( "\n\nPGP Password for Private Key " + ext."signing.keyId" + ": " )
         allprojects { ext."signing.password" = password }
       }
-      /*
-      if( taskGraph.hasTask( uploadArchives ) )
-      {
-        println "Prompting for Repo password"
-        def password =
-          console.readPassword( "Repository password for " + ext."ossrhUsername" + ": " )
-        allprojects { ext."ossrhPassword" = password }
-      }
-      */
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'nexus'
 
 repositories {
   mavenCentral()
@@ -79,73 +79,43 @@ task writeNewPom << {
   }.writeTo( "${buildDir/newpom.xml}" )
 }
 
-task javadocJar( type: Jar, dependsOn: javadoc ) {
-  classifier = 'javadoc'
-  from 'build/docs/javadoc'
-}
+modifyPom {
+  project {
+    name 'Fluent Lambda'
+    packaging 'jar'
+    artifactId archivesBaseName
+    description 'Fluent interfaces for creating lambda expressions in Java'
+    url 'https://github.com/l0s/fluent-lambda'
 
-task sourcesJar( type: Jar ) {
-  from sourceSets.main.allSource
-  classifier = 'sources'
-}
+    scm {
+      connection 'scm:git@github.com:l0s/fluent-lambda.git'
+      developerConnection 'scm:git@github.com:l0s/fluent-lambda.git'
+      url 'https://github.com/l0s/fluent-lambda'
+    }
 
-artifacts {
-  archives jar
-  archives javadocJar
-  archives sourcesJar
-}
+    licenses {
+      license {
+        name 'The Apache Software License, Version 2.0'
+        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+      }
+    }
 
-signing {
-  required { isReleaseVersion && gradle.taskGraph.hasTask( 'uploadArchives' ) }
-  sign configurations.archives
-}
-
-uploadArchives.doFirst {
-  def ossrhPassword =
-    System.console().readPassword( "\n\nRepository password for " + ossrhUsername + ": " )
-  repositories.mavenDeployer.repository( url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/" ) {
-    authentication( userName: ossrhUsername, password: ossrhPassword )
-  }
-  repositories.mavenDeployer.snapshotRepository( url: "https://oss.sonatype.org/content/repositories/snapshots/" ) {
-    authentication( userName: ossrhUsername, password: ossrhPassword )
-  }
-}
-uploadArchives {
-  onlyIf { isReleaseVersion }
-  repositories {
-    mavenDeployer {
-      
-      beforeDeployment { MavenDeployment deployment -> signing.signPom( deployment ) }
-
-      pom.project {
-        name 'Fluent Lambda'
-        packaging 'jar'
-        artifactId archivesBaseName
-        description ''
-        url 'https://github.com/l0s/fluent-lambda'
-
-        scm {
-          connection 'scm:git@github.com:l0s/fluent-lambda.git'
-          developerConnection 'scm:git@github.com:l0s/fluent-lambda.git'
-          url 'https://github.com/l0s/fluent-lambda'
-        }
-
-        licenses {
-          license {
-            name 'The Apache Software License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          }
-        }
-
-        developers {
-          developer {
-            id 'carlos'
-            name 'Carlos Macasaet'
-          }
-        }
+    developers {
+      developer {
+        id 'l0s'
+        name 'Carlos Macasaet'
       }
     }
   }
+}
+
+nexus {
+  attachSources = true
+  attachTests = false
+  attachJavadoc = true
+  sign = true
+  repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+  snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
 }
 
 dependencies {
