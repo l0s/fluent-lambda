@@ -36,10 +36,10 @@ Let's say you have a collection of vectors that you would like to get the [norms
 Typically, the *normCalculator* Function would be defined like this:
 
     Function<RealVector, Double> normCalculator = new Function<RealVector, Double>() {
-            public Double apply(RealVector input) {
-                return input.getNorm();
-            }
-        };
+        public Double apply(RealVector input) {
+            return input.getNorm();
+        }
+    };
 
 This also seems excessive for just a simple method invocation. fluent-lambda provides a concise and declarative way of defining Functions as well:
 
