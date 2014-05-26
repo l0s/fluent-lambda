@@ -18,7 +18,7 @@ import org.gradle.plugins.signing.Sign
 
 group = 'com.macasaet.lambda'
 ext.archivesBaseName = 'fluent-lambda'
-version = '0.1.0-SNAPSHOT'
+version = '0.1.0'
 ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
 
@@ -34,15 +34,14 @@ buildscript {
 
 gradle.taskGraph.whenReady {
   taskGraph ->
-    if( isReleaseVersion )
+    if( taskGraph.hasTask( ':uploadArchives' )
+        && taskGraph.allTasks.any { it instanceof Sign } )
     {
       Console console = System.console()
-      if( taskGraph.allTasks.any { it instanceof Sign } )
-      {
-        def password =
-          console.readPassword( "\n\nPGP Password for Private Key " + ext."signing.keyId" + ": " )
-        allprojects { ext."signing.password" = password }
-      }
+      def password =
+        console.readPassword( "\n\nPGP Password for Private Key "
+                              + ext."signing.keyId" + ": " )
+      allprojects { ext."signing.password" = password }
     }
 }
 
