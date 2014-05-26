@@ -15,11 +15,11 @@ Let's say you have a collection of matrices and you want to retain only the ones
 
 Typically the *matrixIsSquare* Predicate would be defined like this:
 
-        Predicate<AnyMatrix> matrixIsSquare = new Predicate<AnyMatrix>() {
-            public boolean apply(AnyMatrix input) {
-                return input.isSquare();
-            }
-        };
+    Predicate<AnyMatrix> matrixIsSquare = new Predicate<AnyMatrix>() {
+        public boolean apply(AnyMatrix input) {
+            return input.isSquare();
+        }
+    };
 
 It seems excessive for just a simple method invocation. fluent-lambda provides a concise and declarative way of defining the same Predicate:
 
