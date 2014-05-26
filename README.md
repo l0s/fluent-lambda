@@ -1,7 +1,7 @@
 fluent-lambda
 =============
 
-Fluent interfaces for creating lambda expressions in Java. It builds on top of [Guava][1]. It provides a *concise and declarative* way of defining [Functions][2] and [Predicates][3] as an alternative to anonymous inner functions.
+A *concise and declarative* way to define lambda expressions in Java. It builds on top of [Guava][1] and provides an alternative to anonymous inner classes for defining [Functions][2] and [Predicates][3] when those functors just wrap single object-level method invocations.
 
 ## Examples
 
@@ -74,6 +74,10 @@ You can download the library directly from [The Central Repository][6].
 fluent-lambda uses the [Gradle][7] build system. To build from the command line, type:
 
     gradle install
+
+### Known Issues
+
+fluent-lambda currently does not build with JDK 6.
 
 ### Releasing Deployments to the Central Repository
 
