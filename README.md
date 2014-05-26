@@ -79,6 +79,10 @@ fluent-lambda uses the [Gradle][7] build system. To build from the command line,
 
 fluent-lambda currently does not build with JDK 6.
 
+### Continuous Integration
+
+[![Build Status](https://travis-ci.org/l0s/fluent-lambda.png?branch=master)](https://travis-ci.org/l0s/fluent-lambda)
+
 ### Releasing Deployments to the Central Repository
 
 Before releasing to Central, you will need to define the following properties in your *build.gradle* file:

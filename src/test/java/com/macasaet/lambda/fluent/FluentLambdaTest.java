@@ -15,8 +15,8 @@
  ******************************************************************************/
 package com.macasaet.lambda.fluent;
 
-import static com.macasaet.lambda.fluent.FluentFunctions.forMethod;
-import static com.macasaet.lambda.fluent.FluentFunctions.ofClass;
+import static com.macasaet.lambda.fluent.FluentLambda.forMethod;
+import static com.macasaet.lambda.fluent.FluentLambda.ofClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -36,13 +36,13 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
- * Test class for {@link FluentFunctions}.
+ * Test class for {@link FluentLambda}.
  *
  * <p>Copyright &copy; 2014 Carlos Macasaet.</p>
  *
  * @author Carlos Macasaet
  */
-public class FluentFunctionsTest {
+public class FluentLambdaTest {
 
     @Before
     public void setUp() throws Exception {

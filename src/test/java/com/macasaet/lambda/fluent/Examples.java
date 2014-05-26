@@ -1,9 +1,24 @@
+/*******************************************************************************
+ * Copyright 2014 Carlos Macasaet
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package com.macasaet.lambda.fluent;
 
 import static com.google.common.collect.Collections2.filter;
 import static com.google.common.collect.Lists.transform;
-import static com.macasaet.lambda.fluent.FluentFunctions.forMethod;
-import static com.macasaet.lambda.fluent.FluentFunctions.ofClass;
+import static com.macasaet.lambda.fluent.FluentLambda.forMethod;
+import static com.macasaet.lambda.fluent.FluentLambda.ofClass;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,7 +38,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
- * Example usage of the {@link FluentFunctions} class.
+ * Example usage of the {@link FluentLambda} class.
  *
  * <p>Copyright &copy; 2014 Carlos Macasaet</p>
  *
