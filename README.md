@@ -56,14 +56,14 @@ To include the library in your Maven project, add the following dependency to yo
     <dependency>
       <groupId>com.macasaet.lambda</groupId>
       <artifactId>fluent-lambda</artifactId>
-      <version>0.1.0</version>
+      <version>0.1.2</version>
     </dependency>
 
 ### Gradle
 
 To include the library in your Gradle project, add the following dependency to build.gradle:
 
-    compile group: 'com.macasaet.lambda', name: 'fluent-lambda', version: '0.1.0'
+    compile group: 'com.macasaet.lambda', name: 'fluent-lambda', version: '0.1.2'
 
 ### Manual
 

@@ -18,7 +18,7 @@ import org.gradle.plugins.signing.Sign
 
 group = 'com.macasaet.lambda'
 ext.archivesBaseName = 'fluent-lambda'
-version = '0.1.1-SNAPSHOT'
+version = '0.1.2-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
 
