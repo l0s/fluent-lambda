@@ -119,7 +119,7 @@ nexus {
 
 dependencies {
   compile group: 'com.google.guava', name: 'guava', version: '10.0'
-  compile group: 'cglib', name: 'cglib-nodep', version: '2.2.2'
+  compile group: 'cglib', name: 'cglib', version: '2.2.2'
   compile group: 'commons-lang', name: 'commons-lang', version: '2.5'
   compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.5'
 
