@@ -17,10 +17,14 @@ package com.macasaet.lambda.fluent;
 
 import static com.macasaet.lambda.fluent.FluentLambda.forMethod;
 import static com.macasaet.lambda.fluent.FluentLambda.ofClass;
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.math.linear.AnyMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -34,11 +38,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Maps;
 
 /**
  * Test class for {@link FluentLambda}.
  *
- * <p>Copyright &copy; 2014 Carlos Macasaet.</p>
+ * <p>Copyright &copy; 2017 Carlos Macasaet.</p>
  *
  * @author Carlos Macasaet
  */
@@ -131,6 +136,53 @@ public class FluentLambdaTest {
         // then
         final double result = function.apply(instance);
         assertEquals(5.0d, result, 0);
+    }
+
+    protected static class Pojo {
+
+        private String id;
+        private String username;
+
+        public Pojo() {
+        }
+
+        public Pojo(String id, String username) {
+            setId(id);
+            setUsername(username);
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+    }
+
+    @Test
+    public final void verifyAbilityToGenerateMap() {
+        // given
+        final List<Pojo> users =
+                asList(new Pojo("56cfbdad-9209-42d9-9761-96e6b8f04887", "alice"),
+                        new Pojo("ef24742f-2345-4e5f-bda0-f9b6ae0955cd", "bob"));
+
+        // when
+        final Function<? super Pojo, String> function = forMethod(ofClass(Pojo.class).getId());
+
+        // then
+        final Map<String, Pojo> map = Maps.uniqueIndex(users, function);
+        assertEquals("alice", map.get("56cfbdad-9209-42d9-9761-96e6b8f04887").getUsername());
+        assertEquals("bob", map.get("ef24742f-2345-4e5f-bda0-f9b6ae0955cd").getUsername());
     }
 
 }

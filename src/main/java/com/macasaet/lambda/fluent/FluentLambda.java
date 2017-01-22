@@ -35,7 +35,7 @@ import com.google.common.base.Predicate;
 /**
  * Static methods for concisely defining {@link Predicate Predicates} and {@link Function Functions}.
  *
- * <p>Copyright &copy; 2014 Carlos Macasaet.</p>
+ * <p>Copyright &copy; 2017 Carlos Macasaet.</p>
  *
  * @author Carlos Macasaet
  */
@@ -95,7 +95,7 @@ public class FluentLambda {
      * @return a Function that will invoke the recorded method to convert from instances of the parameter to
      *         {@link #ofClass(Class)} to the return type of the recorded method.
      */
-    public static <X, Y> Function<? super X, ? extends Y> forMethod(final Y invocation) {
+    public static <X, Y> Function<? super X, Y> forMethod(final Y invocation) {
         final Method method = methodHolder.get();
         methodHolder.remove();
         checkState(method != null, "Improper usage: ofClass has not been called");
