@@ -100,6 +100,7 @@ modifyPom {
 }
 
 signing {
+  required { isReleaseVersion && gradle.taskGraph.hasTask( "uploadArchives" ) }
   useGpgCmd()
 }
 
