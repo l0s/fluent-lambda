@@ -14,11 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 
-import org.gradle.plugins.signing.Sign
+//import org.gradle.plugins.signing.Sign
 
 group = 'com.macasaet.lambda'
 ext.archivesBaseName = 'fluent-lambda'
-version = '0.2.0-SNAPSHOT'
+version = '0.2.1-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
 
@@ -28,27 +28,13 @@ buildscript {
   }
 
   dependencies {
-    classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7'
+    classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
   }
-}
-
-gradle.taskGraph.whenReady {
-  taskGraph ->
-    if( taskGraph.hasTask( ':uploadArchives' )
-        && taskGraph.allTasks.any { it instanceof Sign } )
-    {
-      Console console = System.console()
-      def password =
-        console.readPassword( "\n\nPGP Password for Private Key "
-                              + ext."signing.keyId" + ": " )
-      allprojects { ext."signing.password" = password }
-    }
 }
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'signing'
-apply plugin: 'nexus'
+apply plugin: 'com.bmuschko.nexus'
 
 repositories {
   mavenCentral()
@@ -63,19 +49,21 @@ jar {
   }
 }
 
-task writeNewPom << {
-  pom {
-    project {
-      inceptionYear '2014'
-      licenses {
-        license {
-          name 'The Apache Software License, Version 2.0'
-          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          distribution 'repo'
+task writeNewPom {
+  doLast {
+    pom {
+      project {
+        inceptionYear '2014'
+        licenses {
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+          }
         }
       }
-    }
-  }.writeTo( "${buildDir/newpom.xml}" )
+    }.writeTo( "${buildDir/newpom.xml}" )
+  }
 }
 
 modifyPom {
@@ -108,13 +96,8 @@ modifyPom {
   }
 }
 
-nexus {
-  attachSources = true
-  attachTests = false
-  attachJavadoc = true
-  sign = true
-  repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-  snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+signing {
+  useGpgCmd()
 }
 
 dependencies {
