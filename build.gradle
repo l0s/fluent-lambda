@@ -14,8 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 
-//import org.gradle.plugins.signing.Sign
-
 group = 'com.macasaet.lambda'
 ext.archivesBaseName = 'fluent-lambda'
 version = '0.2.1-SNAPSHOT'
