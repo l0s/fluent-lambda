@@ -99,10 +99,13 @@ modifyPom {
   }
 }
 
-signing {
-  required { isReleaseVersion && gradle.taskGraph.hasTask( "uploadArchives" ) }
-  useGpgCmd()
+if( project.hasProperty( "signing.gnupg.keyName" ) ) {
+  signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask( "uploadArchives" ) }
+    useGpgCmd()
+  }
 }
+
 
 dependencies {
   compile group: 'com.google.guava', name: 'guava', version: '10.0'
