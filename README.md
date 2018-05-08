@@ -56,7 +56,7 @@ To include the library in your Maven project, add the following dependency to yo
     <dependency>
       <groupId>com.macasaet.lambda</groupId>
       <artifactId>fluent-lambda</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.1</version>
     </dependency>
 
 ### Gradle
@@ -73,7 +73,7 @@ You can download the library directly from [The Central Repository][6].
 
 fluent-lambda uses the [Gradle][7] build system. To build from the command line, type:
 
-    gradle install
+    ./gradlew install
 
 ### Known Issues
 
@@ -93,7 +93,7 @@ Before releasing to Central, you will need to define the following properties in
 
 To build and release to Central, type:
 
-    gradle uploadArchives
+    ./gradlew --no-daemon uploadArchives
 
 You will be prompted for the password to your secret key and for your Central password.
 
