@@ -143,7 +143,8 @@ public class FluentLambda {
 
             public boolean apply(@Nullable X x) {
                 try {
-                    return (boolean) method.invoke(x, new Object[0]);
+                    final Boolean result = (Boolean) method.invoke(x, new Object[0]);
+                    return (boolean)result;
                 } catch (final IllegalAccessException e) {
                     logger.error(e.getMessage(), e);
                     throw new RuntimeException(e.getMessage(), e);

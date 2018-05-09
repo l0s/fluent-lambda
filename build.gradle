@@ -16,7 +16,7 @@
 
 group = 'com.macasaet.lambda'
 ext.archivesBaseName = 'fluent-lambda'
-version = '0.2.2-SNAPSHOT'
+version = '0.3.0-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith( 'SNAPSHOT' )
 project.ext.sourceCompatibility = 1.5
 
@@ -39,8 +39,8 @@ repositories {
 }
 
 compileJava {
-  sourceCompatibility = 1.7
-  targetCompatibility = 1.7
+  sourceCompatibility = 1.6
+  targetCompatibility = 1.6
 }
 
 jar {
@@ -60,7 +60,7 @@ task writeNewPom {
         licenses {
           license {
             name 'The Apache Software License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
             distribution 'repo'
           }
         }
@@ -86,7 +86,7 @@ modifyPom {
     licenses {
       license {
         name 'The Apache Software License, Version 2.0'
-        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
       }
     }
 
